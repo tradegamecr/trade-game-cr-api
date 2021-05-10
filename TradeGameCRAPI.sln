@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeGameCRAPI", "TradeGameCRAPI\TradeGameCRAPI.csproj", "{E691D79B-4199-4E39-A6AA-783A7C4CA6BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E691D79B-4199-4E39-A6AA-783A7C4CA6BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E691D79B-4199-4E39-A6AA-783A7C4CA6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E691D79B-4199-4E39-A6AA-783A7C4CA6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E691D79B-4199-4E39-A6AA-783A7C4CA6BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35A8DB34-3DF3-4F47-AFAE-78E4C7A28851}
+	EndGlobalSection
+EndGlobal
