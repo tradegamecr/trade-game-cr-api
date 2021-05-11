@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
 using TradeGameCRAPI.Entities;
-using TradeGameCRAPI.Models;
 
 namespace TradeGameCRAPI.Repositories
 {
-    public abstract class BaseRepository<TEntity, TDbContext> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity, TDbContext>
         where TEntity : BaseEntity
         where TDbContext : BaseAppDbContext
     {

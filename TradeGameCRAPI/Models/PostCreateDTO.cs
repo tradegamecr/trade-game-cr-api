@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TradeGameCRAPI.Entities;
 
-namespace TradeGameCRAPI.Entities
+namespace TradeGameCRAPI.Models
 {
-    public class Post : BaseEntity
+    public class PostCreateDTO
     {
         [Required]
         public string Title { get; set; }

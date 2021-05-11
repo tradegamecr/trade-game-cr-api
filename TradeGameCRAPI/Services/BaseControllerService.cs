@@ -1,24 +1,16 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TradeGameCRAPI.Repositories;
+using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Services
 {
-    public abstract class BaseControllerService<
-        TEntity,
-        TEntityDTO,
-        TEntityCreateDTO,
-        TEntityUpdateDTO,
-        TRepository
-    > : IBaseControllerService<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO, TRepository>
+    public abstract class BaseControllerService<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO, TRepository>
         where TEntity : class
         where TEntityDTO : class
         where TEntityCreateDTO : class
         where TEntityUpdateDTO : class
-        where TRepository : IBaseRepository<TEntity>
+        where TRepository: IBaseRepository<TEntity>
     {
         private TRepository repository;
         private IMapper mapper;

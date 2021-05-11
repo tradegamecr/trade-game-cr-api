@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TradeGameCRAPI.Contexts;
+﻿using TradeGameCRAPI.Contexts;
 using TradeGameCRAPI.Entities;
+using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Repositories
 {
-    public class UserRepository : BaseRepository<User, AppDbContext>, IUserRepository
+    public class UserRepository : BaseRepository<User, AppDbContext>, IBaseRepository<User>
     {
-        public UserRepository(AppDbContext appDbContext) : base(appDbContext) { }
+        public UserRepository(AppDbContext AppDbContext) : base(AppDbContext) { }
     }
 }

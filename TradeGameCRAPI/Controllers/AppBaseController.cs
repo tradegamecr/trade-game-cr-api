@@ -2,36 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TradeGameCRAPI.Interfaces;
 using TradeGameCRAPI.Models;
-using TradeGameCRAPI.Repositories;
-using TradeGameCRAPI.Services;
 
 namespace TradeGameCRAPI.Controllers
 {
-    public abstract class AppBaseController<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO, TRepository> : ControllerBase
+    public abstract class AppBaseController<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO, TService> : ControllerBase
         where TEntity : class
         where TEntityDTO : BaseDTO
         where TEntityCreateDTO : class
         where TEntityUpdateDTO : class
-        where TRepository : IBaseRepository<TEntity>
+        where TService : IBaseControllerService<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO>
     {
-        protected IBaseControllerService<
-            TEntity,
-            TEntityDTO,
-            TEntityCreateDTO,
-            TEntityUpdateDTO,
-            TRepository
-        > service;
+        public TService service;
 
-        public AppBaseController(
-            IBaseControllerService<
-                TEntity,
-                TEntityDTO,
-                TEntityCreateDTO,
-                TEntityUpdateDTO,
-                TRepository
-            > service
-        )
+        public AppBaseController(TService service)
         {
             this.service = service;
         }
