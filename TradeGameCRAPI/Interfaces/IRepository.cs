@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 
 namespace TradeGameCRAPI.Interfaces
 {
-    public interface IBaseRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity : class
     {
-        Task<List<TEntity>> GetAll();
+        Task<List<TEntity>> GetAll(bool track = false);
 
         Task<TEntity> Get(int id);
-
-        Task<TEntity> FirstOrDefaultAsync(int id);
 
         Task<TEntity> Add(TEntity entity);
 
@@ -17,6 +15,6 @@ namespace TradeGameCRAPI.Interfaces
 
         Task<TEntity> Delete(int id);
 
-        Task SaveChangesAsync();
+        void SaveChangesAsync();
     }
 }

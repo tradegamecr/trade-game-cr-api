@@ -14,10 +14,11 @@ namespace TradeGameCRAPI.Entities
         [Required]
         public bool IsActive { get; set; }
 
-        [Required]
-        public List<Product> Products { get; set; }
+        // Navigation
 
-        [Required]
+        public int UserId { get; set; }
         public User User { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

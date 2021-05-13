@@ -16,9 +16,6 @@ namespace TradeGameCRAPI.Models
         public bool IsActive { get; set; }
 
         [Required]
-        public List<Product> Products { get; set; }
-
-        [Required]
-        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }

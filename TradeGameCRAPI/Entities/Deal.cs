@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TradeGameCRAPI.Enums;
 
 namespace TradeGameCRAPI.Entities
@@ -7,17 +8,20 @@ namespace TradeGameCRAPI.Entities
     public class Deal : BaseEntity
     {
         [Required]
-        public User Bidder { get; set; }
-
-        [Required]
-        public User Retailer { get; set; }
+        public DealStatus Status { get; set; }
 
         public string Message { get; set; }
 
-        [Required]
-        public DealStatus Status { get; set; }
+        // Navigation
 
-        [Required]
         public List<Product> Products { get; set; }
+
+        [ForeignKey("Retailer")]
+        public int RetailerId { get; set; }
+        public User Retailer { get; set; }
+
+        [ForeignKey("Bidder")]
+        public int BidderId { get; set; }
+        public User Bidder { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,37 +8,42 @@ using TradeGameCRAPI.Models;
 
 namespace TradeGameCRAPI.Controllers
 {
-    public abstract class AppBaseController<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO, TService> : ControllerBase
+    public abstract class CustomBaseController<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO>
+        : ControllerBase
         where TEntity : class
         where TEntityDTO : BaseDTO
         where TEntityCreateDTO : class
         where TEntityUpdateDTO : class
-        where TService : IBaseControllerService<TEntity, TEntityDTO, TEntityCreateDTO, TEntityUpdateDTO>
     {
-        public TService service;
+        private readonly IRepository<TEntity> repository;
+        private readonly IMapper mapper;
 
-        public AppBaseController(TService service)
+        public CustomBaseController(IRepository<TEntity> repository, IMapper mapper)
         {
-            this.service = service;
+            this.repository = repository;
+            this.mapper = mapper;
         }
-
+        
         [HttpGet]
-        public async Task<ActionResult<List<TEntityDTO>>> Get()
+        public virtual async Task<ActionResult<List<TEntityDTO>>> Get()
         {
-            var entitiesDto = await service.GetAll();
+            var entities = await repository.GetAll();
+            var entitiesDto = mapper.Map<List<TEntityDTO>>(entities);
 
             return entitiesDto;
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<TEntityDTO>> Get(int id)
+        [HttpGet("{id:int}")]
+        public virtual async Task<ActionResult<TEntityDTO>> Get(int id)
         {
-            var entityDto = await service.Get(id);
+            var entity = await repository.Get(id);
 
-            if (entityDto == null)
+            if (entity == null)
             {
-                return NotFound();
+                return null;
             }
+
+            var entityDto = mapper.Map<TEntityDTO>(entity);
 
             return entityDto;
         }
@@ -45,15 +51,21 @@ namespace TradeGameCRAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TEntityCreateDTO entityCreateDto)
         {
-            var entityDto = await service.Add(entityCreateDto);
+            var entity = mapper.Map<TEntity>(entityCreateDto);
 
-            return new CreatedAtRouteResult("Get", new { id = entityDto.Id }, entityDto);
+            await repository.Add(entity);
+
+            var entityDto = mapper.Map<TEntityDTO>(entity);
+
+            return new CreatedAtRouteResult(new { id = entityDto.Id }, entityDto);
         }
 
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] TEntityUpdateDTO entityUpdateDto)
         {
-            await service.Update(entityUpdateDto);
+            var entity = mapper.Map<TEntity>(entityUpdateDto);
+
+            await repository.Update(entity);
 
             return NoContent();
         }
@@ -66,18 +78,17 @@ namespace TradeGameCRAPI.Controllers
                 return BadRequest();
             }
 
-            var entity = await service.FirstOrDefaultAsync(id);
+            var entity = await repository.Get(id);
 
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var entityDto = service.ToEntityDTO(entity);
+            var entityDto = mapper.Map<TEntityDTO>(entity);
 
             patchDocument.ApplyTo(entityDto, ModelState);
-
-            service.MapReverse(entityDto, entity);
+            mapper.Map(entityDto, entity);
 
             var isValid = TryValidateModel(entity);
 
@@ -86,7 +97,7 @@ namespace TradeGameCRAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            await service.SaveChangesAsync();
+            repository.SaveChangesAsync();
 
             return NoContent();
         }
@@ -94,7 +105,7 @@ namespace TradeGameCRAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<TEntityDTO>> Delete(int id)
         {
-            await service.Delete(id);
+            await repository.Delete(id);
 
             return NoContent();
         }

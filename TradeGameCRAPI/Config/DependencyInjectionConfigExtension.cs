@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TradeGameCRAPI.Entities;
+using TradeGameCRAPI.Interfaces;
 using TradeGameCRAPI.Repositories;
-using TradeGameCRAPI.Services;
 
 namespace TradeGameCRAPI.Config
 {
@@ -8,8 +9,10 @@ namespace TradeGameCRAPI.Config
     {
         public static void AddDependencyInjectionConfig(this IServiceCollection services)
         {
-            services.AddTransient<UserRepository>();
-            services.AddTransient<UserService>();
+            services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddTransient<IRepository<Post>, PostRepository>();
+            services.AddTransient<IRepository<Product>, ProductRepository>();
+            services.AddTransient<IRepository<Deal>, DealRepository>();
         }
     }
 }

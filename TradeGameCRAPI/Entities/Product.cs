@@ -13,8 +13,7 @@ namespace TradeGameCRAPI.Entities
         public string Image { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(5)]
+        [Range(1, 5)]
         public int State { get; set; }
 
         [Required]
@@ -22,7 +21,15 @@ namespace TradeGameCRAPI.Entities
 
         public string Note { get; set; }
 
-        [Required]
-        public User Owner { get; set; }
+        // Navigation
+
+        public int UserId { get; set; }
+        public User User { get; set; }
+
+        public int? PostId { get; set; }
+        public Post Post { get; set; }
+
+        public int? DealId { get; set; }
+        public Deal Deal { get; set; }
     }
 }

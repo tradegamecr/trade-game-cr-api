@@ -13,5 +13,11 @@ namespace TradeGameCRAPI.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public int SuccessfulDeals { get; set; } = 0;
+
+        public string City { get; set; }
+
+        public int Phone { get; set; }
     }
 }

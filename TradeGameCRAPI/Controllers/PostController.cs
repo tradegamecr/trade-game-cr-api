@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TradeGameCRAPI.Entities;
 using TradeGameCRAPI.Interfaces;
 using TradeGameCRAPI.Models;
-using TradeGameCRAPI.Repositories;
 
-namespace TradeGameCRAPI.Services
+namespace TradeGameCRAPI.Controllers
 {
-    public class PostService
-        : BaseControllerService<Post, PostDTO, PostCreateDTO, PostUpdateDTO, PostRepository>,
-        IBaseControllerService<Post, PostDTO, PostCreateDTO, PostUpdateDTO>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PostController : CustomBaseController<Post, PostDTO, PostCreateDTO, PostUpdateDTO>
     {
         private static MapperConfiguration postMapperConfiguration = new MapperConfiguration(cfg => {
             cfg.CreateMap<Post, PostDTO>().ReverseMap();
@@ -16,7 +16,7 @@ namespace TradeGameCRAPI.Services
             cfg.CreateMap<PostUpdateDTO, Post>();
         });
 
-        public PostService(PostRepository PostRepository)
+        public PostController(IRepository<Post> PostRepository)
             : base(PostRepository, postMapperConfiguration.CreateMapper()) { }
     }
 }
