@@ -40,7 +40,7 @@ namespace TradeGameCRAPI.Controllers
 
             if (entity == null)
             {
-                return null;
+                return NotFound();
             }
 
             var entityDto = mapper.Map<TEntityDTO>(entity);
