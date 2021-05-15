@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
@@ -95,6 +98,65 @@ namespace TradeGameCRAPITest
 
             var controller = new UserController(mock.Object);
             var result = controller.Put(entityUpdateDto);
+
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
+        }
+
+        [TestMethod]
+        public void Patch_PatchDocument_NotExist()
+        {
+            var id = 1;
+            var patchDocument = default(JsonPatchDocument<UserUpdateDTO>);
+            var mock = new Mock<IRepository<User>>();
+            var controller = new UserController(mock.Object);
+            var result = controller.Patch(id, patchDocument);
+
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void Patch_Entity_NotExist()
+        {
+            var id = 1;
+            var patchDocument = new JsonPatchDocument<UserUpdateDTO>();
+            var mock = new Mock<IRepository<User>>();
+
+            mock.Setup(x => x.Get(id)).ReturnsAsync(default(User));
+
+            var controller = new UserController(mock.Object);
+            var result = controller.Patch(id, patchDocument);
+
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void Patch_Valid()
+        {
+            var id = 1;
+            var entity = new User()
+            {
+                Id = id,
+                Name = "Darth",
+                LastName = "Vader",
+                Email = "darth.vader@starwars.com",
+                City = "Mustafar"
+            };
+            var patchDocument = new JsonPatchDocument<UserUpdateDTO>();
+            var operation = new Operation<UserUpdateDTO>("replace", "/name", "value");
+            var mock = new Mock<IRepository<User>>();
+            var objectValidatorMock = new Mock<IObjectModelValidator>();
+
+            patchDocument.Operations.Add(operation);
+            mock.Setup(x => x.Get(id)).ReturnsAsync(entity);
+            mock.Setup(x => x.SaveChangesAsync()).Verifiable();
+            objectValidatorMock.Setup(x => x.Validate(It.IsAny<ActionContext>(),
+                                          It.IsAny<ValidationStateDictionary>(),
+                                          It.IsAny<string>(),
+                                          It.IsAny<object>()));
+
+            var controller = new UserController(mock.Object);
+
+            var result = controller.Patch(id, patchDocument);
 
             Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
         }

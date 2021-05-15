@@ -17,11 +17,16 @@ namespace TradeGameCRAPI.Controllers
     {
         private readonly IRepository<TEntity> repository;
         private readonly IMapper mapper;
+        private readonly MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg => {
+            cfg.CreateMap<TEntity, TEntityDTO>().ReverseMap();
+            cfg.CreateMap<TEntityCreateDTO, TEntity>();
+            cfg.CreateMap<TEntityUpdateDTO, TEntity>().ReverseMap();
+        });
 
-        public CustomBaseController(IRepository<TEntity> repository, IMapper mapper)
+        public CustomBaseController(IRepository<TEntity> repository)
         {
             this.repository = repository;
-            this.mapper = mapper;
+            mapper = mapperConfiguration.CreateMapper();
         }
         
         [HttpGet]
@@ -71,7 +76,7 @@ namespace TradeGameCRAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<TEntityDTO> patchDocument)
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<TEntityUpdateDTO> patchDocument)
         {
             if (patchDocument == null)
             {
@@ -85,10 +90,10 @@ namespace TradeGameCRAPI.Controllers
                 return NotFound();
             }
 
-            var entityDto = mapper.Map<TEntityDTO>(entity);
+            var entityUpdateDto = mapper.Map<TEntityUpdateDTO>(entity);
 
-            patchDocument.ApplyTo(entityDto, ModelState);
-            mapper.Map(entityDto, entity);
+            patchDocument.ApplyTo(entityUpdateDto, ModelState);
+            mapper.Map(entityUpdateDto, entity);
 
             var isValid = TryValidateModel(entity);
 
