@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TradeGameCRAPI.Helpers;
 using TradeGameCRAPI.Interfaces;
 using TradeGameCRAPI.Models;
 
@@ -30,9 +32,13 @@ namespace TradeGameCRAPI.Controllers
         }
         
         [HttpGet]
-        public virtual async Task<ActionResult<List<TEntityDTO>>> Get()
+        public virtual async Task<ActionResult<List<TEntityDTO>>> Get([FromQuery] PaginationDTO paginationDto)
         {
-            var entities = await repository.GetAll();
+            var count = await repository.GetCount();
+
+            HttpContext.InsertPaginationParams(count, paginationDto.PageSize);
+
+            var entities = await repository.GetByPagination(paginationDto);
             var entitiesDto = mapper.Map<List<TEntityDTO>>(entities);
 
             return entitiesDto;

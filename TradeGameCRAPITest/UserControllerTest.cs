@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +23,19 @@ namespace TradeGameCRAPITest
             {
                 new User()
             };
+            var pagination = new PaginationDTO();
             var mockRepository = new Mock<IRepository<User>>();
 
-            mockRepository.Setup(r => r.GetAll(false)).ReturnsAsync(entities);
+            mockRepository.Setup(x => x.GetByPagination(pagination, false)).ReturnsAsync(entities);
 
+            var controllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var controller = new UserController(mockRepository.Object);
-            var expected = new List<UserDTO>();
-            var result = controller.Get().Result.Value;
 
-            Assert.IsNotNull(result);
+            controller.ControllerContext = controllerContext;
+
+            var expected = new List<UserDTO>();
+            var result = controller.Get(pagination).Result.Value;
+
             Assert.IsInstanceOfType(result, expected.GetType());
         }
 
@@ -44,7 +49,7 @@ namespace TradeGameCRAPITest
             };
             var mockRepository = new Mock<IRepository<User>>();
 
-            mockRepository.Setup(r => r.Get(id)).ReturnsAsync(entity);
+            mockRepository.Setup(x => x.Get(id)).ReturnsAsync(entity);
 
             var controller = new UserController(mockRepository.Object);
             var expected = new UserDTO()
@@ -156,9 +161,25 @@ namespace TradeGameCRAPITest
 
             var controller = new UserController(mock.Object);
 
+            controller.ObjectValidator = objectValidatorMock.Object;
+
             var result = controller.Patch(id, patchDocument);
 
             Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
+        }
+
+        [TestMethod]
+        public void Delete()
+        {
+            var id = 1;
+            var mock = new Mock<IRepository<User>>();
+
+            mock.Setup(x => x.Delete(id));
+
+            var controller = new UserController(mock.Object);
+            var result = controller.Delete(id);
+
+            Assert.IsInstanceOfType(result.Result.Result, typeof(NoContentResult));
         }
     }
 }
