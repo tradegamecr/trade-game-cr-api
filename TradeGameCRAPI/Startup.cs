@@ -20,9 +20,8 @@ namespace TradeGameCRAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAppDbContext(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddDependencyInjectionConfig();
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddSwaggerConfig();
+            // services.AddDependencyInjectionConfig();
+            services.AddGraphQLConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,16 +30,15 @@ namespace TradeGameCRAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.AddSwaggerConfig();
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app
+                .UseRouting()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGraphQL();
+                });
         }
     }
 }

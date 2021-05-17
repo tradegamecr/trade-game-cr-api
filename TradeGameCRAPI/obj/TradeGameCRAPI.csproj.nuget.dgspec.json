@@ -44,6 +44,18 @@
               "target": "Package",
               "version": "[10.1.1, )"
             },
+            "HotChocolate.AspNetCore": {
+              "target": "Package",
+              "version": "[11.2.2, )"
+            },
+            "HotChocolate.Data": {
+              "target": "Package",
+              "version": "[11.2.2, )"
+            },
+            "HotChocolate.Data.EntityFramework": {
+              "target": "Package",
+              "version": "[11.2.2, )"
+            },
             "Microsoft.AspNetCore.JsonPatch": {
               "target": "Package",
               "version": "[5.0.5, )"

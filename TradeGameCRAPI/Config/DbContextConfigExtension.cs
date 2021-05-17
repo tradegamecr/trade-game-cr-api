@@ -8,7 +8,7 @@ namespace TradeGameCRAPI.Config
     {
         public static void AddAppDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
+            services.AddPooledDbContextFactory<AppDbContext>(x => x.UseSqlServer(connectionString));
         }
     }
 }
