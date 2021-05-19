@@ -1,21 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TradeGameCRAPI.Enums;
+﻿using TradeGameCRAPI.Enums;
+using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Models
 {
-    public class ProductCreateDTO
+    public class UpdateProductInput : IUpdateInput
     {
-        [Required]
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
-        [Range(1, 5)]
         public int State { get; set; }
 
-        [Required]
         public ProductType Type { get; set; }
 
-        [Required]
         public int UserId { get; set; }
 
         public string Note { get; set; }

@@ -1,17 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Models
 {
-    public class UserCreateDTO
+    public class UpdateUserInput : IUpdateInput
     {
-        [Required]
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
 
         public int SuccessfulDeals { get; set; } = 0;

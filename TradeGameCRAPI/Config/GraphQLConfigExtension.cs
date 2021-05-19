@@ -9,11 +9,16 @@ namespace TradeGameCRAPI.Config
         {
             services
                 .AddGraphQLServer()
-                .AddQueryType(d => d.Name(Constants.GraphQLOperationTypes.Query))
+                .AddQueryType(x => x.Name(Constants.GraphQLOperationTypes.Query))
                 .AddType<UserResolver.UserQuery>()
                 .AddType<ProductResolver.ProductQuery>()
                 .AddType<PostResolver.PostQuery>()
                 .AddType<DealResolver.DealQuery>()
+                .AddMutationType(x => x.Name(Constants.GraphQLOperationTypes.Mutation))
+                .AddType<UserResolver.UserMutation>()
+                .AddType<ProductResolver.ProductMutation>()
+                .AddType<PostResolver.PostMutation>()
+                .AddType<DealResolver.DealMutation>()
                 .AddFiltering()
                 .AddSorting()
                 .AddProjections();

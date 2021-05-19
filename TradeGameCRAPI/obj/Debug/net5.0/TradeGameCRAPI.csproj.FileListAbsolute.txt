@@ -74,8 +74,6 @@ C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\TradeGameCRAPI.pdb
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Humanizer.dll
-C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
-C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -91,7 +89,6 @@ C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Newtonsoft.Json.dll
-C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -151,3 +148,5 @@ C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\HotChocolate.Validation.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.Extensions.DiagnosticAdapter.dll
+C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Elasticsearch.Net.dll
+C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Nest.dll

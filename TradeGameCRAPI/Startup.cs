@@ -22,7 +22,7 @@ namespace TradeGameCRAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAppDbContext(Configuration.GetConnectionString("DefaultConnection"), WebHostEnvironment.IsDevelopment());
-            // services.AddDependencyInjectionConfig();
+            services.ConfigElasticClient(Configuration.GetConnectionString("ElasticSearch"));
             services.AddGraphQLConfig();
         }
 

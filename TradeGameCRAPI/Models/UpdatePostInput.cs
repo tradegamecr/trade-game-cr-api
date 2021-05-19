@@ -1,21 +1,17 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TradeGameCRAPI.Entities;
+﻿using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Models
 {
-    public class PostCreateDTO
+    public class UpdatePostInput : IUpdateInput
     {
-        [Required]
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
-        [Required]
         public bool IsActive { get; set; }
 
-        [Required]
         public int UserId { get; set; }
     }
 }

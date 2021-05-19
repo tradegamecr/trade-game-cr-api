@@ -1,24 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TradeGameCRAPI.Models
 {
     public class UserDTO : BaseDTO
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        public int SuccessfulDeals { get; set; }
+        public int SuccessfulDeals { get; set; } = 0;
 
-        public string City { get; set; }
+        public string? City { get; set; }
 
-        public int Phone { get; set; }
+        public int? Phone { get; set; }
+
+        /*public List<DealDTO>? Retails { get; set; } = new List<DealDTO>();
+
+        public List<DealDTO>? Bids { get; set; } = new List<DealDTO>();*/
     }
 }

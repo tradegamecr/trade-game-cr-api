@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using TradeGameCRAPI.Interfaces;
 using TradeGameCRAPI.Models;
 
-namespace TradeGameCRAPI.Repositories
+namespace TradeGameCRAPI.Helpers
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly DbContext dbContext;
 
