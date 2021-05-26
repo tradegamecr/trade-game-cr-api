@@ -3,6 +3,8 @@ using AutoMapper.QueryableExtensions;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
+using Nest;
 using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
@@ -16,7 +18,9 @@ namespace TradeGameCRAPI.Resolvers
     {
         private static readonly MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Post, PostDTO>();
+            cfg.CreateMap<Product, ProductDTO>().ReverseMap();
+            cfg.CreateMap<Post, ESPost>();
+            cfg.CreateMap<Post, PostDTO>().ReverseMap();
             cfg.CreateMap<CreatePostInput, Post>();
             cfg.CreateMap<UpdatePostInput, Post>();
         });
@@ -42,6 +46,7 @@ namespace TradeGameCRAPI.Resolvers
         public class PostMutation
         {
             private readonly MutationBase<Post, PostDTO, CreatePostInput, UpdatePostInput> mutationBase;
+            private readonly IMapper mapper = mapperConfiguration.CreateMapper();
 
             public PostMutation()
             {
@@ -50,21 +55,47 @@ namespace TradeGameCRAPI.Resolvers
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<PostDTO> CreatePost([ScopedService] AppDbContext dbContext, CreatePostInput input)
+            public async Task<PostDTO> CreatePost
+                ([ScopedService] AppDbContext dbContext, CreatePostInput input)
             {
                 return await mutationBase.Create(dbContext, input);
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<PostDTO> UpdatePost([ScopedService] AppDbContext dbContext, UpdatePostInput input)
+            public async Task<PostDTO> UpdatePost
+                ([ScopedService] AppDbContext dbContext, UpdatePostInput input)
             {
                 return await mutationBase.Update(dbContext, input);
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<PostDTO> DeletePost([ScopedService] AppDbContext dbContext, int id)
+            public async Task<PostDTO> DeletePost
+                ([ScopedService] AppDbContext dbContext, [Service] IElasticClient elasticClient, int id)
             {
-                return await mutationBase.Delete(dbContext, id);
+                var post = await dbContext.Posts
+                    .Where(x => x.Id == id)
+                    .Include(x => x.Products)
+                    .Include(x => x.User)
+                    .FirstOrDefaultAsync();
+
+                if (post == null)
+                {
+                    throw QueryExceptionBuilder.NotFound<Post>(id);
+                }
+
+                if (post.Products != null)
+                {
+                    post.Products.Clear();
+                }
+
+                post.User = null;
+
+                dbContext.Posts.Remove(post);
+                await dbContext.SaveChangesAsync();
+
+                var postDto = mapper.Map<PostDTO>(post);
+
+                return postDto;
             }
         }
     }

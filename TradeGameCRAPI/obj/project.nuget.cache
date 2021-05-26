@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vkFYP2lrd72bQJsmr49YWVIZr77Mmj7gTcXnjLkJ5ImPVLN8s91L1Rp0p+jg+FVTS6wqUmB895yGqFGXF9Q7ng==",
+  "dgSpecHash": "ZSPf/TDDO+jhwr5ft/98ojLz4Bqv0jx37ENQLW6bG+VpPdNghKUyuc5BRdWcs9878B0cIaT4DCWRPvA2ERwPBg==",
   "success": true,
   "projectFilePath": "C:\\Users\\rcane\\Desktop\\projects\\trade-game-cr-api\\TradeGameCRAPI\\TradeGameCRAPI.csproj",
   "expectedPackageFiles": [
@@ -63,7 +63,7 @@
     "C:\\Users\\rcane\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\nest\\7.12.1\\nest.7.12.1.nupkg.sha512",
-    "C:\\Users\\rcane\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\rcane\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
@@ -93,6 +93,7 @@
     "C:\\Users\\rcane\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\rcane\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\system.net.nameresolution\\4.3.0\\system.net.nameresolution.4.3.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\system.net.primitives\\4.3.0\\system.net.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\rcane\\.nuget\\packages\\system.private.datacontractserialization\\4.3.0\\system.private.datacontractserialization.4.3.0.nupkg.sha512",

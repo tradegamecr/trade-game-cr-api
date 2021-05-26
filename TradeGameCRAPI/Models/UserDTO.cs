@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace TradeGameCRAPI.Models
 {
@@ -17,8 +16,12 @@ namespace TradeGameCRAPI.Models
 
         public int? Phone { get; set; }
 
-        /*public List<DealDTO>? Retails { get; set; } = new List<DealDTO>();
+        public List<PostDTO>? Posts { get; set; }
 
-        public List<DealDTO>? Bids { get; set; } = new List<DealDTO>();*/
+        public List<DealDTO>? Retails { get; set; } = new List<DealDTO>();
+
+        public List<DealDTO>? Bids { get; set; } = new List<DealDTO>();
+
+        public List<ProductDTO>? Products { get; set; } = new List<ProductDTO>();
     }
 }

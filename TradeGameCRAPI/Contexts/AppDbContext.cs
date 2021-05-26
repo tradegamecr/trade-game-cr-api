@@ -14,11 +14,17 @@ namespace TradeGameCRAPI.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
+/*            modelBuilder
                 .Entity<Deal>()
                 .HasOne(e => e.Retailer)
                 .WithMany(e => e.Retails)
                 .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder
+                .Entity<Deal>()
+                .HasOne(e => e.Bidder)
+                .WithMany(e => e.Bids)
+                .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
-using HotChocolate;
-using HotChocolate.Execution;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
+using TradeGameCRAPI.Entities;
 using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Helpers
 {
-    public class MutationBase<TEntity, TEntityDTO, TCreatInput, TUpdateInput>
-        where TEntity : class
+    public class MutationBase<TEntity, TEntityDTO, TCreatInput, TUpdateInput> :
+        IMutationBase<TEntity, TEntityDTO, TCreatInput, TUpdateInput>
+        where TEntity : BaseEntity
         where TUpdateInput : IUpdateInput
     {
         private readonly IMapper mapper;
@@ -30,18 +32,17 @@ namespace TradeGameCRAPI.Helpers
 
         public async Task<TEntityDTO> Update(AppDbContext dbContext, TUpdateInput input)
         {
-            var repository = new Repository<TEntity>(dbContext);
-            var entity = await repository.Get(input.Id);
+            var entity = await dbContext.Set<TEntity>()
+                .Where(x => x.Id == input.Id)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
 
             if (entity == null)
             {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage($"{typeof(TEntity).Name} with the Id {input.Id} not exist")
-                        .SetCode("NOT_EXIST")
-                        .Build());
+                throw QueryExceptionBuilder.NotFound<TEntity>(input.Id);
             }
 
+            var repository = new Repository<TEntity>(dbContext);
             var entityToUpdate = mapper.Map<TEntity>(input);
             var updatedEntity = await repository.Update(entityToUpdate);
             var entityDto = mapper.Map<TEntityDTO>(updatedEntity);
@@ -56,11 +57,7 @@ namespace TradeGameCRAPI.Helpers
 
             if (entity == null)
             {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage($"{typeof(TEntity).Name} with the Id {id} not exist")
-                        .SetCode("NOT_EXIST")
-                        .Build());
+                throw QueryExceptionBuilder.NotFound<TEntity>(id);
             }
 
             var entityDeleted = await repository.Delete(id);

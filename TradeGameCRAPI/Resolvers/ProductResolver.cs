@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
-using Nest;
 using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
@@ -17,7 +16,9 @@ namespace TradeGameCRAPI.Resolvers
     {
         private static readonly MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Product, ProductDTO>();
+            cfg.CreateMap<User, UserDTO>();
+            cfg.CreateMap<Post, PostDTO>();
+            cfg.CreateMap<Product, ProductDTO>().ReverseMap();
             cfg.CreateMap<CreateProductInput, Product>();
             cfg.CreateMap<UpdateProductInput, Product>();
         });
@@ -52,19 +53,21 @@ namespace TradeGameCRAPI.Resolvers
 
             [UseDbContext(typeof(AppDbContext))]
             public async Task<ProductDTO> CreateProduct
-                ([ScopedService] AppDbContext dbContext, [Service] IElasticClient elasticClient, CreateProductInput input)
+                ([ScopedService] AppDbContext dbContext, CreateProductInput input)
             {
                 return await mutationBase.Create(dbContext, input);
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<ProductDTO> UpdateProduct([ScopedService] AppDbContext dbContext, UpdateProductInput input)
+            public async Task<ProductDTO> UpdateProduct
+                ([ScopedService] AppDbContext dbContext, UpdateProductInput input)
             {
                 return await mutationBase.Update(dbContext, input);
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<ProductDTO> DeleteProduct([ScopedService] AppDbContext dbContext, int id)
+            public async Task<ProductDTO> DeleteProduct
+                ([ScopedService] AppDbContext dbContext, int id)
             {
                 return await mutationBase.Delete(dbContext, id);
             }

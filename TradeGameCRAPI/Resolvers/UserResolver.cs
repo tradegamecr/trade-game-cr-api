@@ -16,6 +16,9 @@ namespace TradeGameCRAPI.Resolvers
     {
         private static readonly MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg =>
         {
+            cfg.CreateMap<Product, ProductDTO>();
+            cfg.CreateMap<Post, PostDTO>();
+            cfg.CreateMap<Deal, DealDTO>();
             cfg.CreateMap<User, UserDTO>();
             cfg.CreateMap<CreateUserInput, User>();
             cfg.CreateMap<UpdateUserInput, User>();
@@ -62,7 +65,8 @@ namespace TradeGameCRAPI.Resolvers
             }
 
             [UseDbContext(typeof(AppDbContext))]
-            public async Task<UserDTO> DeleteUser([ScopedService] AppDbContext dbContext, int id)
+            public async Task<UserDTO> DeleteUser
+                ([ScopedService] AppDbContext dbContext, int id)
             {
                 return await mutationBase.Delete(dbContext, id);
             }

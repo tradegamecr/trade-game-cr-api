@@ -8,9 +8,9 @@ namespace TradeGameCRAPI.Entities
         [Required]
         public string Name { get; set; }
 
-        public string ImageSmall { get; set; }
+        public string? ImageSmall { get; set; }
 
-        public string Image { get; set; }
+        public string? Image { get; set; }
 
         [Required]
         [Range(1, 5)]
@@ -19,7 +19,7 @@ namespace TradeGameCRAPI.Entities
         [Required]
         public ProductType Type { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         // Navigation
 
@@ -27,9 +27,9 @@ namespace TradeGameCRAPI.Entities
         public User User { get; set; }
 
         public int? PostId { get; set; }
-        public Post Post { get; set; }
+        public Post? Post { get; set; }
 
         public int? DealId { get; set; }
-        public Deal Deal { get; set; }
+        public Deal? Deal { get; set; }
     }
 }

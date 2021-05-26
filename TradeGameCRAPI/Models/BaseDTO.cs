@@ -4,7 +4,7 @@ namespace TradeGameCRAPI.Models
 {
     public class BaseDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

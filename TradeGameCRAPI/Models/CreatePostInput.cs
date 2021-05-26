@@ -1,4 +1,5 @@
-﻿using TradeGameCRAPI.Entities;
+﻿using System.Collections.Generic;
+using TradeGameCRAPI.Entities;
 
 namespace TradeGameCRAPI.Models
 {
@@ -11,5 +12,7 @@ namespace TradeGameCRAPI.Models
         public bool? IsActive { get; set; } = true;
 
         public int UserId { get; set; }
+
+        public List<int> ProductsId { get; set; }
     }
 }

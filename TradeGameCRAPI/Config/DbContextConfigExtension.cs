@@ -11,7 +11,8 @@ namespace TradeGameCRAPI.Config
         {
             services.AddPooledDbContextFactory<AppDbContext>((s, o) =>
             {
-                o.UseSqlServer(connectionString);
+                o.UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging();
 
                 if (isDev)
                 {

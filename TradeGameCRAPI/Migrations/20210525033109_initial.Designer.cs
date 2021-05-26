@@ -10,8 +10,8 @@ using TradeGameCRAPI.Contexts;
 namespace TradeGameCRAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210513062640_entities_def")]
-    partial class entities_def
+    [Migration("20210525033109_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,13 +28,14 @@ namespace TradeGameCRAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BidderId")
+                    b.Property<int?>("BidderId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RetailerId")
@@ -166,7 +167,7 @@ namespace TradeGameCRAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Phone")
+                    b.Property<int?>("Phone")
                         .HasColumnType("int");
 
                     b.Property<int>("SuccessfulDeals")
@@ -184,14 +185,12 @@ namespace TradeGameCRAPI.Migrations
                 {
                     b.HasOne("TradeGameCRAPI.Entities.User", "Bidder")
                         .WithMany("Bids")
-                        .HasForeignKey("BidderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BidderId");
 
                     b.HasOne("TradeGameCRAPI.Entities.User", "Retailer")
                         .WithMany("Retails")
                         .HasForeignKey("RetailerId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bidder");

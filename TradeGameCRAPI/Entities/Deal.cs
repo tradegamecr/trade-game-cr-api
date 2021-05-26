@@ -10,6 +10,7 @@ namespace TradeGameCRAPI.Entities
         [Required]
         public DealStatus Status { get; set; }
 
+        [Required]
         public string Message { get; set; }
 
         // Navigation
@@ -21,7 +22,7 @@ namespace TradeGameCRAPI.Entities
         public User Retailer { get; set; }
 
         [ForeignKey("Bidder")]
-        public int BidderId { get; set; }
-        public User Bidder { get; set; }
+        public int? BidderId { get; set; }
+        public User? Bidder { get; set; }
     }
 }

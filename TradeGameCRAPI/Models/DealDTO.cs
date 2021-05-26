@@ -5,13 +5,10 @@ namespace TradeGameCRAPI.Models
 {
     public class DealDTO : BaseDTO
     {
-        [Required]
         public DealStatus Status { get; set; }
 
-        [Required]
         public int RetailerId { get; set; }
 
-        [Required]
         public int BidderId { get; set; }
 
         public string Message { get; set; }

@@ -150,3 +150,4 @@ C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Microsoft.Extensions.DiagnosticAdapter.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Elasticsearch.Net.dll
 C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Nest.dll
+C:\Users\rcane\Desktop\projects\trade-game-cr-api\TradeGameCRAPI\bin\Debug\net5.0\Files\jsondata.json
