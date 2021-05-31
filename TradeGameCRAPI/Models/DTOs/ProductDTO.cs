@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TradeGameCRAPI.Enums;
-using TradeGameCRAPI.Interfaces;
+﻿using TradeGameCRAPI.Enums;
 
 namespace TradeGameCRAPI.Models
 {
@@ -18,7 +16,11 @@ namespace TradeGameCRAPI.Models
 
         public string ImageSmall { get; set; }
 
+        public string ImageLarge { get; set; }
+
         public string Image { get; set; }
+
+        public string ESId { get; set; }
 
         public PostDTO? Post { get; set; }
     }

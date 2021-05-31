@@ -11,7 +11,7 @@ namespace TradeGameCRAPI.Models
 
         public int RetailerId { get; set; }
 
-        public int BidderId { get; set; }
+        public int? BidderId { get; set; }
 
         public string Message { get; set; }
     }

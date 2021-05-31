@@ -1,6 +1,5 @@
 ﻿using HotChocolate;
 using HotChocolate.Execution;
-using TradeGameCRAPI.Models;
 
 namespace TradeGameCRAPI.Helpers
 {
@@ -10,7 +9,7 @@ namespace TradeGameCRAPI.Helpers
         {
             return new QueryException(
                 ErrorBuilder.New()
-                    .SetMessage($"{typeof(TInput).Name} with the Id {id} not found")
+                    .SetMessage($"{typeof(TInput).Name} with the Id {id} not found.")
                     .SetCode(Constants.GraphQLExceptionCodes.NotFound)
                     .Build());
         }
@@ -28,7 +27,7 @@ namespace TradeGameCRAPI.Helpers
         {
             return new QueryException(
                 ErrorBuilder.New()
-                    .SetMessage("Bad request")
+                    .SetMessage("Bad request.")
                     .SetCode(Constants.GraphQLExceptionCodes.BadRequest)
                     .Build());
         }

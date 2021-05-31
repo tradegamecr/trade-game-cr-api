@@ -5,6 +5,6 @@
         Sell,
         Exchange,
         SellExchange,
-        NotAvailable
+        Backlog
     }
 }

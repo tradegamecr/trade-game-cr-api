@@ -3,12 +3,14 @@ using AutoMapper.QueryableExtensions;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
 using TradeGameCRAPI.Entities;
 using TradeGameCRAPI.Helpers;
 using TradeGameCRAPI.Models;
+using TradeGameCRAPI.Services;
 
 namespace TradeGameCRAPI.Resolvers
 {
@@ -20,7 +22,8 @@ namespace TradeGameCRAPI.Resolvers
             cfg.CreateMap<Post, PostDTO>();
             cfg.CreateMap<Product, ProductDTO>().ReverseMap();
             cfg.CreateMap<CreateProductInput, Product>();
-            cfg.CreateMap<UpdateProductInput, Product>();
+            cfg.CreateMap<UpdateProductInput, Product>()
+                .ForAllMembers(o => o.UseDestinationValue());
         });
 
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
@@ -55,6 +58,14 @@ namespace TradeGameCRAPI.Resolvers
             public async Task<ProductDTO> CreateProduct
                 ([ScopedService] AppDbContext dbContext, CreateProductInput input)
             {
+                var userValidatorService = new UserValidatorService(dbContext);
+                var error = await userValidatorService.Exist(input.UserId);
+
+                if (error != null)
+                {
+                    throw error;
+                }
+
                 return await mutationBase.Create(dbContext, input);
             }
 
@@ -62,6 +73,14 @@ namespace TradeGameCRAPI.Resolvers
             public async Task<ProductDTO> UpdateProduct
                 ([ScopedService] AppDbContext dbContext, UpdateProductInput input)
             {
+                var userValidatorService = new UserValidatorService(dbContext);
+                var error = await userValidatorService.Exist(input.UserId);
+
+                if (error != null)
+                {
+                    throw error;
+                }
+
                 return await mutationBase.Update(dbContext, input);
             }
 
@@ -69,6 +88,19 @@ namespace TradeGameCRAPI.Resolvers
             public async Task<ProductDTO> DeleteProduct
                 ([ScopedService] AppDbContext dbContext, int id)
             {
+                var product = await dbContext.Products
+                    .AsNoTracking()
+                    .Where(x => x.Id == id)
+                    .Include(x => x.Post)
+                    .FirstOrDefaultAsync();
+
+                if (product.Post != null)
+                {
+                    throw QueryExceptionBuilder.Custom(
+                        "That product is part of a post",
+                        Constants.GraphQLExceptionCodes.BadRequest);
+                }
+
                 return await mutationBase.Delete(dbContext, id);
             }
         }

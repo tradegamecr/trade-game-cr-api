@@ -13,6 +13,8 @@ namespace TradeGameCRAPI.Models
 
         public bool IsActive { get; set; }
 
+        public int UserId { get; set; }
+
         public List<int>? ProductsId { get; set; }
     }
 }

@@ -101,6 +101,10 @@ namespace TradeGameCRAPI.Migrations
                     b.Property<int?>("DealId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ESId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 

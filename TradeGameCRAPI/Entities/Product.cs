@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using TradeGameCRAPI.Enums;
 
 namespace TradeGameCRAPI.Entities
@@ -10,6 +11,8 @@ namespace TradeGameCRAPI.Entities
 
         public string? ImageSmall { get; set; }
 
+        public string? ImageLarge { get; set; }
+
         public string? Image { get; set; }
 
         [Required]
@@ -20,6 +23,9 @@ namespace TradeGameCRAPI.Entities
         public ProductType Type { get; set; }
 
         public string? Note { get; set; }
+
+        [Required]
+        public string ESId { get; set; }
 
         // Navigation
 

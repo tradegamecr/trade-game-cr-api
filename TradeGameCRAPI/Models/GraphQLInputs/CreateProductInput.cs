@@ -16,6 +16,10 @@ namespace TradeGameCRAPI.Models
 
         public string? ImageSmall { get; set; }
 
+        public string? ImageLarge { get; set; }
+
         public string? Image { get; set; }
+
+        public string ESId { get; set; }
     }
 }

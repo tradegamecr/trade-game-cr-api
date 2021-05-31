@@ -1,4 +1,5 @@
-﻿using HotChocolate;
+﻿using AutoMapper;
+using HotChocolate;
 using HotChocolate.Types;
 using Nest;
 using System.Threading.Tasks;
@@ -10,6 +11,13 @@ namespace TradeGameCRAPI.Resolvers
     [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
     public class SearchQuery
     {
+        private readonly IMapper mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<ESCard, CardDTO>();
+            cfg.CreateMap<ESImageUris, ImageUrisDTO>();
+            cfg.CreateMap<ESRelatedUris, RelatedUrisDTO>();
+        }).CreateMapper();
+
         public async Task<SearchResponse> Search
             ([Service] IElasticClient elasticClient, string query, int? from = 0, int? size = 20)
         {
@@ -55,6 +63,27 @@ namespace TradeGameCRAPI.Resolvers
                 (int)size);
 
             return searchResponseBuilder.GetResponse();
+        }
+
+        public async Task<CardDTO> SearchById([Service] IElasticClient elasticClient, string id)
+        {
+            var searchResponse = await elasticClient.SourceAsync<ESCard>
+                (id, s => s.Index(Constants.ESIndexes.Cards));
+
+            if (searchResponse.ApiCall.HttpStatusCode == 404)
+            {
+                throw QueryExceptionBuilder.Custom
+                    ($"Card with the Id {id} not found", Constants.GraphQLExceptionCodes.NotFound);
+            }
+
+            if (!searchResponse.IsValid)
+            {
+                throw QueryExceptionBuilder.BadRequest();
+            }
+
+            var cardDto = mapper.Map<CardDTO>(searchResponse.Body);
+
+            return cardDto;
         }
     }
 }

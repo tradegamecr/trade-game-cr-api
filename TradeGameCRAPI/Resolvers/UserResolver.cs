@@ -21,7 +21,8 @@ namespace TradeGameCRAPI.Resolvers
             cfg.CreateMap<Deal, DealDTO>();
             cfg.CreateMap<User, UserDTO>();
             cfg.CreateMap<CreateUserInput, User>();
-            cfg.CreateMap<UpdateUserInput, User>();
+            cfg.CreateMap<UpdateUserInput, User>()
+                .ForAllMembers(o => o.UseDestinationValue());
         });
 
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]

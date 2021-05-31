@@ -93,6 +93,7 @@ namespace TradeGameCRAPI.Migrations
                     State = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ESId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: true),
                     DealId = table.Column<int>(type: "int", nullable: true),

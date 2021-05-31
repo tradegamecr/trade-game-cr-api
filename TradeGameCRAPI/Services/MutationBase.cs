@@ -43,7 +43,7 @@ namespace TradeGameCRAPI.Helpers
             }
 
             var repository = new Repository<TEntity>(dbContext);
-            var entityToUpdate = mapper.Map<TEntity>(input);
+            var entityToUpdate = mapper.Map(input, entity);
             var updatedEntity = await repository.Update(entityToUpdate);
             var entityDto = mapper.Map<TEntityDTO>(updatedEntity);
 

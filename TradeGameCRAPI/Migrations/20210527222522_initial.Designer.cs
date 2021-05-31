@@ -10,7 +10,7 @@ using TradeGameCRAPI.Contexts;
 namespace TradeGameCRAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210525033109_initial")]
+    [Migration("20210527222522_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,10 @@ namespace TradeGameCRAPI.Migrations
 
                     b.Property<int?>("DealId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ESId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");

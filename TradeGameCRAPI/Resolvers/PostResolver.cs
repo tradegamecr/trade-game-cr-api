@@ -9,8 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
 using TradeGameCRAPI.Entities;
+using TradeGameCRAPI.Enums;
 using TradeGameCRAPI.Helpers;
 using TradeGameCRAPI.Models;
+using TradeGameCRAPI.Services;
 
 namespace TradeGameCRAPI.Resolvers
 {
@@ -22,7 +24,8 @@ namespace TradeGameCRAPI.Resolvers
             cfg.CreateMap<Post, ESPost>();
             cfg.CreateMap<Post, PostDTO>().ReverseMap();
             cfg.CreateMap<CreatePostInput, Post>();
-            cfg.CreateMap<UpdatePostInput, Post>();
+            cfg.CreateMap<UpdatePostInput, Post>()
+                .ForAllMembers(o => o.UseDestinationValue());
         });
 
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
@@ -58,13 +61,53 @@ namespace TradeGameCRAPI.Resolvers
             public async Task<PostDTO> CreatePost
                 ([ScopedService] AppDbContext dbContext, CreatePostInput input)
             {
-                return await mutationBase.Create(dbContext, input);
+                var userValidatorService = new UserValidatorService(dbContext);
+                var error = await userValidatorService.ForPost(input.UserId, input.ProductsId);
+
+                if (error != null)
+                {
+                    throw error;
+                }
+
+                var post = mapper.Map<Post>(input);
+                var products = await dbContext.Products.Where(x => input.ProductsId.Contains(x.Id)).ToListAsync();
+
+                foreach (var product in products)
+                {
+                    if (product.Type != ProductType.Sell)
+                    {
+                        throw QueryExceptionBuilder.Custom(
+                            "The post are only for SELL products",
+                            Constants.GraphQLExceptionCodes.BadRequest);
+                    }
+                }
+
+                dbContext.Posts.Add(post);
+                await dbContext.SaveChangesAsync();
+
+                foreach (var product in products) {
+                    product.PostId = post.Id;
+                }
+
+                await dbContext.SaveChangesAsync();
+
+                var postDto = mapper.Map<PostDTO>(post);
+
+                return postDto;
             }
 
             [UseDbContext(typeof(AppDbContext))]
             public async Task<PostDTO> UpdatePost
                 ([ScopedService] AppDbContext dbContext, UpdatePostInput input)
             {
+                var userValidatorService = new UserValidatorService(dbContext);
+                var error = await userValidatorService.ForPost(input.UserId, input.ProductsId);
+
+                if (error != null)
+                {
+                    throw error;
+                }
+
                 return await mutationBase.Update(dbContext, input);
             }
 
@@ -81,6 +124,11 @@ namespace TradeGameCRAPI.Resolvers
                 if (post == null)
                 {
                     throw QueryExceptionBuilder.NotFound<Post>(id);
+                }
+
+                foreach (var product in post.Products)
+                {
+                    product.Type = ProductType.Backlog;
                 }
 
                 if (post.Products != null)
