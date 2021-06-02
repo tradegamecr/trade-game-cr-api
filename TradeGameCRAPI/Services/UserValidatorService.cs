@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
 using TradeGameCRAPI.Entities;
 using TradeGameCRAPI.Helpers;
+using TradeGameCRAPI.Interfaces;
 
 namespace TradeGameCRAPI.Services
 {
-    public class UserValidatorService
+    public class UserValidatorService : IUserValidatorService
     {
         private readonly AppDbContext dbContext;
 
