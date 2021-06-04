@@ -12,7 +12,6 @@ namespace TradeGameCRAPI.Resolvers
 {
     public static class BulkResolver
     {
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class BulkQuery
         {

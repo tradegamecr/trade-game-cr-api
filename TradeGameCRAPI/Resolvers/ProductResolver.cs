@@ -27,10 +27,10 @@ namespace TradeGameCRAPI.Resolvers
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class ProductQuery
         {
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UsePaging]
             [UseProjection]
@@ -39,13 +39,13 @@ namespace TradeGameCRAPI.Resolvers
             public IQueryable<ProductDTO> GetProducts([ScopedService] AppDbContext dbContext) =>
                 dbContext.Products.ProjectTo<ProductDTO>(mapperConfiguration);
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UseFirstOrDefault]
             public IQueryable<ProductDTO> GetProductById([ScopedService] AppDbContext dbContext, int id) =>
                 dbContext.Products.Where(x => x.Id == id).ProjectTo<ProductDTO>(mapperConfiguration);
         }
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class ProductMutation
         {
@@ -57,6 +57,7 @@ namespace TradeGameCRAPI.Resolvers
                     (mapperConfiguration.CreateMapper());
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<ProductDTO> CreateProduct
                 ([ScopedService] AppDbContext dbContext, CreateProductInput input)
@@ -72,6 +73,7 @@ namespace TradeGameCRAPI.Resolvers
                 return await mutationBase.Create(dbContext, input);
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<ProductDTO> UpdateProduct
                 ([ScopedService] AppDbContext dbContext, UpdateProductInput input)
@@ -87,6 +89,7 @@ namespace TradeGameCRAPI.Resolvers
                 return await mutationBase.Update(dbContext, input);
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<ProductDTO> DeleteProduct
                 ([ScopedService] AppDbContext dbContext, int id)

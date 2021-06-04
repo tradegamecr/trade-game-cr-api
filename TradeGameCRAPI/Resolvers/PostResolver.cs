@@ -29,10 +29,10 @@ namespace TradeGameCRAPI.Resolvers
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class PostQuery
         {
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UsePaging]
             [UseProjection]
@@ -41,13 +41,13 @@ namespace TradeGameCRAPI.Resolvers
             public IQueryable<PostDTO> GetPosts([ScopedService] AppDbContext dbContext) =>
                 dbContext.Posts.ProjectTo<PostDTO>(mapperConfiguration);
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UseFirstOrDefault]
             public IQueryable<PostDTO> GetPostById([ScopedService] AppDbContext dbContext, int id) =>
                 dbContext.Posts.Where(x => x.Id == id).ProjectTo<PostDTO>(mapperConfiguration);
         }
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class PostMutation
         {
@@ -60,6 +60,7 @@ namespace TradeGameCRAPI.Resolvers
                     (mapperConfiguration.CreateMapper());
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<PostDTO> CreatePost
                 ([ScopedService] AppDbContext dbContext, CreatePostInput input)
@@ -99,6 +100,7 @@ namespace TradeGameCRAPI.Resolvers
                 return postDto;
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<PostDTO> UpdatePost
                 ([ScopedService] AppDbContext dbContext, UpdatePostInput input)
@@ -114,6 +116,7 @@ namespace TradeGameCRAPI.Resolvers
                 return await mutationBase.Update(dbContext, input);
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<PostDTO> DeletePost
                 ([ScopedService] AppDbContext dbContext, [Service] IElasticClient elasticClient, int id)

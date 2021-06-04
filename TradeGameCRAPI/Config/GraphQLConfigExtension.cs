@@ -9,6 +9,7 @@ namespace TradeGameCRAPI.Config
         {
             services
                 .AddGraphQLServer()
+                .AddAuthorization()
                 .AddQueryType(x => x.Name(Constants.GraphQLOperationTypes.Query))
                 .AddType<UserResolver.UserQuery>()
                 .AddType<ProductResolver.ProductQuery>()
@@ -24,8 +25,7 @@ namespace TradeGameCRAPI.Config
                 .AddType<SignInResolver.SignInMutation>()
                 .AddFiltering()
                 .AddSorting()
-                .AddProjections()
-                .AddAuthorization();
+                .AddProjections();
         }
     }
 }

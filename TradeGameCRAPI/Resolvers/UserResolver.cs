@@ -29,10 +29,10 @@ namespace TradeGameCRAPI.Resolvers
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class UserQuery
         {
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UsePaging]
             [UseProjection]
@@ -41,18 +41,19 @@ namespace TradeGameCRAPI.Resolvers
             public IQueryable<UserDTO> GetUsers([ScopedService] AppDbContext dbContext) =>
                 dbContext.Users.ProjectTo<UserDTO>(mapperConfiguration);
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UseFirstOrDefault]
             public IQueryable<UserDTO> GetUserById([ScopedService] AppDbContext dbContext, int id) =>
                 dbContext.Users.Where(x => x.Id == id).ProjectTo<UserDTO>(mapperConfiguration);
         }
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class UserMutation
         {
             private readonly IMapper mapper = mapperConfiguration.CreateMapper();
 
+            [Authorize]
             public async Task<UserDTO> CreateUser([Service] UserManager<User> userManager, CreateUserInput input)
             {
                 var user = mapper.Map<User>(input);
@@ -73,6 +74,7 @@ namespace TradeGameCRAPI.Resolvers
                 return userDto;
             }
 
+            [Authorize]
             public async Task<UserDTO> UpdateUser([Service] UserManager<User> userManager, UpdateUserInput input)
             {
                 var user = await userManager.FindByIdAsync(input.Id.ToString());
@@ -97,6 +99,7 @@ namespace TradeGameCRAPI.Resolvers
                 return userDto;
             }
 
+            [Authorize]
             public async Task<UserDTO> DeleteUser([Service] UserManager<User> userManager,  int id)
             {
                 var user = await userManager.FindByIdAsync(id.ToString());

@@ -23,10 +23,10 @@ namespace TradeGameCRAPI.Resolvers
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class DealQuery
         {
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UsePaging]
             [UseProjection]
@@ -35,13 +35,13 @@ namespace TradeGameCRAPI.Resolvers
             public IQueryable<DealDTO> GetDeals([ScopedService] AppDbContext dbContext) =>
                 dbContext.Deals.ProjectTo<DealDTO>(mapperConfiguration);
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             [UseFirstOrDefault]
             public IQueryable<DealDTO> GetDealById([ScopedService] AppDbContext dbContext, int id) =>
                 dbContext.Deals.Where(x => x.Id == id).ProjectTo<DealDTO>(mapperConfiguration);
         }
 
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class DealMutation
         {
@@ -53,18 +53,21 @@ namespace TradeGameCRAPI.Resolvers
                     (mapperConfiguration.CreateMapper());
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<DealDTO> CreateDeal([ScopedService] AppDbContext dbContext, CreateDealInput input)
             {
                 return await mutationBase.Create(dbContext, input);
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<DealDTO> UpdateDeal([ScopedService] AppDbContext dbContext, UpdateDealInput input)
             {
                 return await mutationBase.Update(dbContext, input);
             }
 
+            [Authorize]
             [UseDbContext(typeof(AppDbContext))]
             public async Task<DealDTO> DeleteDeal([ScopedService] AppDbContext dbContext, int id)
             {

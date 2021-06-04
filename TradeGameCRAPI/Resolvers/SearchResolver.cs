@@ -11,7 +11,6 @@ namespace TradeGameCRAPI.Resolvers
 {
     public static class SearchResolver
     {
-        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class SearchQuery
         {
@@ -22,6 +21,7 @@ namespace TradeGameCRAPI.Resolvers
                 cfg.CreateMap<ESRelatedUris, RelatedUrisDTO>();
             }).CreateMapper();
 
+            [Authorize]
             public async Task<SearchResponse> Search
                 ([Service] IElasticClient elasticClient, string query, int? from = 0, int? size = 20)
             {
@@ -69,6 +69,7 @@ namespace TradeGameCRAPI.Resolvers
                 return searchResponseBuilder.GetResponse();
             }
 
+            [Authorize]
             public async Task<CardDTO> SearchById([Service] IElasticClient elasticClient, string id)
             {
                 var searchResponse = await elasticClient.SourceAsync<ESCard>
