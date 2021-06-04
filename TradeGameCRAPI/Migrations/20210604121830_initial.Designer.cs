@@ -10,7 +10,7 @@ using TradeGameCRAPI.Contexts;
 namespace TradeGameCRAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210604120556_initial")]
+    [Migration("20210604121830_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -340,6 +340,9 @@ namespace TradeGameCRAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -56,7 +56,8 @@ namespace TradeGameCRAPI.Resolvers
                         Name = userInfoResult.FirstName,
                         LastName = userInfoResult.LastName,
                         Email = userInfoResult.Email,
-                        UserName = userInfoResult.Email
+                        UserName = userInfoResult.Email,
+                        Picture = userInfoResult.Picture.Data.Url.ToString()
                     };
                     var createResult = await userManager.CreateAsync(newUser);
 

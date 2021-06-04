@@ -25,6 +25,8 @@ namespace TradeGameCRAPI.Entities
         [Required]
         public int SuccessfulDeals { get; set; } = 0;
 
+        public string? Picture { get; set; }
+
         public string? City { get; set; }
 
         public int? Phone { get; set; }
