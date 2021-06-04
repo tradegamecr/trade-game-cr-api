@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TradeGameCRAPI.Models;
 using TradeGameCRAPI.Resolvers;
 
 namespace TradeGameCRAPI.Config
@@ -15,16 +14,18 @@ namespace TradeGameCRAPI.Config
                 .AddType<ProductResolver.ProductQuery>()
                 .AddType<PostResolver.PostQuery>()
                 .AddType<DealResolver.DealQuery>()
-                .AddType<SearchQuery>()
-                .AddType<BulkQuery>()
+                .AddType<SearchResolver.SearchQuery>()
+                .AddType<BulkResolver.BulkQuery>()
                 .AddMutationType(x => x.Name(Constants.GraphQLOperationTypes.Mutation))
                 .AddType<UserResolver.UserMutation>()
                 .AddType<ProductResolver.ProductMutation>()
                 .AddType<PostResolver.PostMutation>()
                 .AddType<DealResolver.DealMutation>()
+                .AddType<SignInResolver.SignInMutation>()
                 .AddFiltering()
                 .AddSorting()
-                .AddProjections();
+                .AddProjections()
+                .AddAuthorization();
         }
     }
 }

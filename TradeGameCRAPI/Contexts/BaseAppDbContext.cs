@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using TradeGameCRAPI.Entities;
 
 namespace TradeGameCRAPI.Contexts
 {
-    public abstract class BaseAppDbContext : DbContext
+    public abstract class BaseAppDbContext : IdentityDbContext<User, Role, int>
     {
         public BaseAppDbContext(DbContextOptions options) : base(options) { }
 

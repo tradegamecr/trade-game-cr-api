@@ -3,7 +3,7 @@ using TradeGameCRAPI.Entities;
 
 namespace TradeGameCRAPI.Contexts
 {
-    public class AppDbContext: BaseAppDbContext
+    public class AppDbContext : BaseAppDbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -11,20 +11,5 @@ namespace TradeGameCRAPI.Contexts
         public DbSet<Deal> Deals { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) :base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-/*            modelBuilder
-                .Entity<Deal>()
-                .HasOne(e => e.Retailer)
-                .WithMany(e => e.Retails)
-                .OnDelete(DeleteBehavior.ClientCascade);
-
-            modelBuilder
-                .Entity<Deal>()
-                .HasOne(e => e.Bidder)
-                .WithMany(e => e.Bids)
-                .OnDelete(DeleteBehavior.Cascade);*/
-        }
     }
 }

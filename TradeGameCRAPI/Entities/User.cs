@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeGameCRAPI.Entities
 {
-    public class User : BaseEntity
+    public class User : IdentityUser<int>
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -14,7 +20,7 @@ namespace TradeGameCRAPI.Entities
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
         [Required]
         public int SuccessfulDeals { get; set; } = 0;
@@ -22,6 +28,10 @@ namespace TradeGameCRAPI.Entities
         public string? City { get; set; }
 
         public int? Phone { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
 
         // Navigation
 

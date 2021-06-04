@@ -10,8 +10,6 @@ namespace TradeGameCRAPI.Models
 
         public string? LastName { get; set; }
 
-        public string? Email { get; set; }
-
         public int? SuccessfulDeals { get; set; } = 0;
 
         public string? City { get; set; }

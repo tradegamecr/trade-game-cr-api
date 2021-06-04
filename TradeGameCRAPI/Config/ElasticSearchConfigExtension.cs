@@ -5,9 +5,9 @@ using System;
 
 namespace TradeGameCRAPI.Config
 {
-    public static class ElasticSearchExtension
+    public static class ElasticSearchConfigExtension
     {
-        public static void ConfigElasticClient(this IServiceCollection services, string uri)
+        public static void AddElasticSearchConfig(this IServiceCollection services, string uri)
         {
             var node = new Uri(uri);
             var settings = new ConnectionSettings(node)

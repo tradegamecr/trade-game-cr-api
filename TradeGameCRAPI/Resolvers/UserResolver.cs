@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 using TradeGameCRAPI.Contexts;
@@ -19,12 +21,15 @@ namespace TradeGameCRAPI.Resolvers
             cfg.CreateMap<Product, ProductDTO>();
             cfg.CreateMap<Post, PostDTO>();
             cfg.CreateMap<Deal, DealDTO>();
-            cfg.CreateMap<User, UserDTO>();
-            cfg.CreateMap<CreateUserInput, User>();
+            cfg.CreateMap<User, UserDTO>()
+                .ForAllMembers(o => o.UseDestinationValue());
+            cfg.CreateMap<CreateUserInput, User>()
+                .ForAllMembers(o => o.UseDestinationValue());
             cfg.CreateMap<UpdateUserInput, User>()
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
+        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class UserQuery
         {
@@ -42,34 +47,76 @@ namespace TradeGameCRAPI.Resolvers
                 dbContext.Users.Where(x => x.Id == id).ProjectTo<UserDTO>(mapperConfiguration);
         }
 
+        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class UserMutation
         {
-            private readonly MutationBase<User, UserDTO, CreateUserInput, UpdateUserInput> mutationBase;
+            private readonly IMapper mapper = mapperConfiguration.CreateMapper();
 
-            public UserMutation()
+            public async Task<UserDTO> CreateUser([Service] UserManager<User> userManager, CreateUserInput input)
             {
-                mutationBase = new MutationBase<User, UserDTO, CreateUserInput, UpdateUserInput>
-                    (mapperConfiguration.CreateMapper());
+                var user = mapper.Map<User>(input);
+
+                user.UserName = user.Email;
+
+                var result = await userManager.CreateAsync(user);
+
+                if (result.Errors.Any())
+                {
+                    var error = result.Errors.First().Description;
+
+                    throw QueryExceptionBuilder.Custom(error, Constants.GraphQLExceptionCodes.BadRequest);
+                }
+
+                var userDto = mapper.Map<UserDTO>(user);
+
+                return userDto;
             }
 
-            [UseDbContext(typeof(AppDbContext))]
-            public async Task<UserDTO> CreateUser([ScopedService] AppDbContext dbContext, CreateUserInput input)
+            public async Task<UserDTO> UpdateUser([Service] UserManager<User> userManager, UpdateUserInput input)
             {
-                return await mutationBase.Create(dbContext, input);
+                var user = await userManager.FindByIdAsync(input.Id.ToString());
+
+                if (user == null)
+                {
+                    throw QueryExceptionBuilder.NotFound<User>(input.Id);
+                }
+
+                var entityToUpdate = mapper.Map(input, user);
+                var result = await userManager.UpdateAsync(entityToUpdate);
+
+                if (result.Errors.Any())
+                {
+                    var error = result.Errors.First().Description;
+
+                    throw QueryExceptionBuilder.Custom(error, Constants.GraphQLExceptionCodes.BadRequest);
+                }
+
+                var userDto = mapper.Map<UserDTO>(entityToUpdate);
+
+                return userDto;
             }
 
-            [UseDbContext(typeof(AppDbContext))]
-            public async Task<UserDTO> UpdateUser([ScopedService] AppDbContext dbContext, UpdateUserInput input)
+            public async Task<UserDTO> DeleteUser([Service] UserManager<User> userManager,  int id)
             {
-                return await mutationBase.Update(dbContext, input);
-            }
+                var user = await userManager.FindByIdAsync(id.ToString());
 
-            [UseDbContext(typeof(AppDbContext))]
-            public async Task<UserDTO> DeleteUser
-                ([ScopedService] AppDbContext dbContext, int id)
-            {
-                return await mutationBase.Delete(dbContext, id);
+                if (user == null)
+                {
+                    throw QueryExceptionBuilder.NotFound<User>(id);
+                }
+
+                var userDto = mapper.Map<UserDTO>(user);
+                var result = await userManager.DeleteAsync(user);
+
+                if (result.Errors.Any())
+                {
+                    var error = result.Errors.First().Description;
+
+                    throw QueryExceptionBuilder.Custom(error, Constants.GraphQLExceptionCodes.BadRequest);
+                }
+
+                return userDto;
             }
         }
     }

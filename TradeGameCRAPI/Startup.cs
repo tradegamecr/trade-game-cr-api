@@ -21,9 +21,12 @@ namespace TradeGameCRAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAppDbContext(Configuration.GetConnectionString("DefaultConnection"), WebHostEnvironment.IsDevelopment());
-            services.ConfigElasticClient(Configuration.GetConnectionString("ElasticSearch"));
+            services.AddDependencyInjectionConfig();
+            services.AddIdentityConfig();
+            services.AddAuthenticationConfig(Configuration["JWT:Key"]);
             services.AddGraphQLConfig();
+            services.AddAppDbContextConfig(Configuration.GetConnectionString("DefaultConnection"), WebHostEnvironment.IsDevelopment());
+            services.AddElasticSearchConfig(Configuration.GetConnectionString("ElasticSearch"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,9 +37,9 @@ namespace TradeGameCRAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            // app.UseHttpsRedirection();
             app
                 .UseRouting()
+                .UseAuthentication()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapGraphQL();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ namespace TradeGameCRAPI.Resolvers
                 .ForAllMembers(o => o.UseDestinationValue());
         });
 
+        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Query)]
         public class PostQuery
         {
@@ -45,6 +47,7 @@ namespace TradeGameCRAPI.Resolvers
                 dbContext.Posts.Where(x => x.Id == id).ProjectTo<PostDTO>(mapperConfiguration);
         }
 
+        [Authorize]
         [ExtendObjectType(Constants.GraphQLOperationTypes.Mutation)]
         public class PostMutation
         {
